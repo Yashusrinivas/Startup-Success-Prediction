@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Success Predictor - AI-Powered Business Intelligence</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        .hero-buttons {
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+        .btn-hero {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary-hero {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        .btn-primary-hero:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .btn-outline-hero {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+        }
+        .btn-outline-hero:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            color: white;
+        }
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        .shape:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+        .shape:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 4s; }
+        .shape:nth-child(4) { bottom: 10%; right: 20%; animation-delay: 1s; }
+        
+        .features-section {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 15px;
+            border: none;
+            height: 100%;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+        }
+        .stat-item {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .cta-section {
+            padding: 100px 0;
+            background: white;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 50px;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        .navbar {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: #333 !important;
+        }
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-rocket"></i> StartupPredict
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#stats">Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/predict-form">Try Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-background">
+            <div class="floating-shapes">
+                <i class="fas fa-chart-line shape" style="font-size: 60px;"></i>
+                <i class="fas fa-rocket shape" style="font-size: 80px;"></i>
+                <i class="fas fa-lightbulb shape" style="font-size: 70px;"></i>
+                <i class="fas fa-trophy shape" style="font-size: 90px;"></i>
+            </div>
+        </div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Predict Your Startup's Success</h1>
+                    <p class="hero-subtitle">
+                        Leverage the power of AI and machine learning to predict your startup's success probability.
+                        Make data-driven decisions with our advanced Random Forest model trained on thousands of startup data points.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="/predict-form" class="btn btn-primary-hero btn-hero">
+                            <i class="fas fa-magic"></i> Start Prediction
+                        </a>
+                        <a href="#features" class="btn btn-outline-hero btn-hero">
+                            <i class="fas fa-info-circle"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <i class="fas fa-chart-pie" style="font-size: 15rem; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="section-title">Why Choose StartupPredict?</h2>
+                    <p class="section-subtitle">Our AI-powered platform offers comprehensive startup success analysis</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-brain feature-icon"></i>
+                            <h5 class="card-title">AI-Powered Analysis</h5>
+                            <p class="card-text">Advanced Random Forest machine learning model trained on comprehensive startup data for accurate predictions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <h5 class="card-title">Data-Driven Insights</h5>
+                            <p class="card-text">Get detailed analysis of funding patterns, business metrics, and success factors that matter most.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-rocket feature-icon"></i>
+                            <h5 class="card-title">Instant Results</h5>
+                            <p class="card-text">Get immediate predictions with confidence scores and actionable recommendations for your startup.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-map-marker-alt feature-icon"></i>
+                            <h5 class="card-title">Geographic Analysis</h5>
+                            <p class="card-text">Understand how location impacts startup success across different states and regions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-dollar-sign feature-icon"></i>
+                            <h5 class="card-title">Funding Intelligence</h5>
+                            <p class="card-text">Analyze funding rounds, VC backing, and investment patterns that lead to successful acquisitions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <h5 class="card-title">Validated Model</h5>
+                            <p class="card-text">Our model achieves 78% accuracy with rigorous cross-validation and hyperparameter optimization.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="section-title" style="color: white;">Our Model Performance</h2>
+                    <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Trained on comprehensive startup dataset with proven accuracy</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">923</div>
+                        <div class="stat-label">Startups Analyzed</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Model Accuracy</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">49</div>
+                        <div class="stat-label">Features Analyzed</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Cross-Validation Folds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title">Ready to Predict Your Success?</h2>
+                    <p class="section-subtitle">
+                        Join hundreds of entrepreneurs who trust our AI-powered predictions to make better business decisions.
+                    </p>
+                    <a href="/predict-form" class="btn btn-primary-hero btn-hero" style="color: #667eea; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <i class="fas fa-chart-bar"></i> Start Your Prediction Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-rocket"></i> StartupPredict</h6>
+                    <p class="mb-0">AI-powered startup success prediction platform</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-0">
+                        Built with <i class="fas fa-heart text-danger"></i> using Flask & Machine Learning
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255,255,255,0.98)';
+            } else {
+                navbar.style.background = 'rgba(255,255,255,0.95)';
+            }
+        });
+
+        // Animate stats on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const finalValue = parseInt(stat.textContent);
+                        let currentValue = 0;
+                        const increment = finalValue / 50;
+                        
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= finalValue) {
+                                stat.textContent = finalValue + (stat.textContent.includes('%') ? '%' : '');
+                                clearInterval(timer);
+                            } else {
+                                stat.textContent = Math.floor(currentValue) + (stat.textContent.includes('%') ? '%' : '');
+                            }
+                        }, 30);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
+</body>
+</html>

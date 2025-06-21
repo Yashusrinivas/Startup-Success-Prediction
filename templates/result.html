@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results - Startup Success Predictor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .result-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
+            overflow: hidden;
+        }
+        .result-header {
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .result-header.success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        }
+        .result-header.danger {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .confidence-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .result-body {
+            padding: 40px 30px;
+        }
+        .result-message {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .input-summary {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .input-summary h5 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .input-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .input-item:last-child {
+            border-bottom: none;
+        }
+        .input-label {
+            font-weight: 600;
+            color: #333;
+        }
+        .input-value {
+            color: #667eea;
+            font-weight: 500;
+        }
+        .action-buttons {
+            text-align: center;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        .btn-secondary-custom {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        .btn-secondary-custom:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .recommendation-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+        .recommendation-box h6 {
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            position: relative;
+        }
+        .progress-circle.success {
+            background: conic-gradient(#28a745 {{ confidence }}%, #e9ecef {{ confidence }}%);
+        }
+        .progress-circle.danger {
+            background: conic-gradient(#dc3545 {{ confidence }}%, #e9ecef {{ confidence }}%);
+        }
+        .progress-inner {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="result-card">
+                    <div class="result-header {{ result_class }}">
+                        {% if result == 'Acquired' %}
+                            <i class="fas fa-trophy result-icon"></i>
+                        {% else %}
+                            <i class="fas fa-exclamation-triangle result-icon"></i>
+                        {% endif %}
+
+                        <h1 class="result-title">{{ result }}</h1>
+
+                        <div class="progress-circle {{ result_class }}">
+                            <div class="progress-inner">
+                                {{ confidence }}%
+                            </div>
+                        </div>
+
+                        <div class="confidence-badge">
+                            Confidence: {{ confidence }}%
+                        </div>
+                    </div>
+
+                    <div class="result-body">
+                        <p class="result-message">
+                            {{ result_message }}
+                        </p>
+
+                        <div class="input-summary">
+                            <h5><i class="fas fa-chart-bar"></i> Input Summary</h5>
+                            {% for label, value in input_data.items() %}
+                            <div class="input-item">
+                                <span class="input-label">{{ label }}:</span>
+                                <span class="input-value">
+                                    {% if 'USD' in label %}
+                                        ${{ "{:,}".format(value|int) }}
+                                    {% else %}
+                                        {{ value }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if result == 'Acquired' %}
+                        <div class="recommendation-box">
+                            <h6><i class="fas fa-lightbulb"></i> Success Factors</h6>
+                            <p class="mb-0">Your startup shows strong indicators for success! Key strengths include solid funding history, good relationship building, and milestone achievement. Continue focusing on:</p>
+                            <ul class="mt-2 mb-0">
+                                <li>Building strategic partnerships</li>
+                                <li>Achieving operational milestones</li>
+                                <li>Maintaining investor relationships</li>
+                                <li>Scaling efficiently</li>
+                            </ul>
+                        </div>
+                        {% else %}
+                        <div class="recommendation-box">
+                            <h6><i class="fas fa-exclamation-circle"></i> Areas for Improvement</h6>
+                            <p class="mb-0">Consider strengthening these areas to improve success probability:</p>
+                            <ul class="mt-2 mb-0">
+                                <li>Increase funding rounds and total capital</li>
+                                <li>Build more strategic relationships</li>
+                                <li>Focus on achieving key milestones</li>
+                                <li>Consider relocating to startup-friendly regions</li>
+                                <li>Seek venture capital or angel investment</li>
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <div class="action-buttons mt-4">
+                            <a href="/predict-form" class="btn btn-primary-custom btn-custom">
+                                <i class="fas fa-redo"></i> Make Another Prediction
+                            </a>
+                            <a href="/" class="btn btn-secondary-custom btn-custom">
+                                <i class="fas fa-home"></i> Back to Home
+                            </a>
+                            <button onclick="window.print()" class="btn btn-secondary-custom btn-custom">
+                                <i class="fas fa-print"></i> Print Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Understanding Your Results</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>How We Calculate Predictions</h6>
+                    <p>Our Random Forest model analyzes multiple factors including:</p>
+                    <ul>
+                        <li><strong>Funding Patterns:</strong> Total funding, number of rounds, timing</li>
+                        <li><strong>Business Metrics:</strong> Relationships, milestones, growth indicators</li>
+                        <li><strong>Geographic Factors:</strong> Location advantages in startup ecosystems</li>
+                        <li><strong>Investment Types:</strong> VC backing, angel investment, series funding</li>
+                    </ul>
+                    
+                    <h6 class="mt-4">Confidence Score</h6>
+                    <p>The confidence score indicates how certain the model is about its prediction. Higher confidence means the model found clear patterns similar to successful/unsuccessful startups in the training data.</p>
+                    
+                    <h6 class="mt-4">Important Note</h6>
+                    <p class="text-muted">This prediction is based on historical data and should be used as guidance only. Many factors contribute to startup success, including market conditions, team quality, product-market fit, and timing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add some animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate the result card
+            const resultCard = document.querySelector('.result-card');
+            resultCard.style.opacity = '0';
+            resultCard.style.transform = 'translateY(50px)';
+            
+            setTimeout(() => {
+                resultCard.style.transition = 'all 0.8s ease';
+                resultCard.style.opacity = '1';
+                resultCard.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Animate input items
+            const inputItems = document.querySelectorAll('.input-item');
+            inputItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'all 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 300 + (index * 100));
+            });
+        });
+        
+        // Share functionality
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Startup Success Prediction',
+                    text: 'Check out my startup success prediction: {{ result }} with {{ confidence }}% confidence',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const shareText = `Startup Success Prediction: {{ result }} with {{ confidence }}% confidence`;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Results copied to clipboard!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
