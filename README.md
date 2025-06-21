@@ -2,6 +2,10 @@
 
 A machine learning-powered web application that predicts whether a startup will be **acquired** or **closed** based on historical data and key business metrics.
 
+## 🌐 Live Demo
+
+**Try it now:** [Live Link](https://startupsuccessprediction-production.up.railway.app/)
+
 ## 📊 Project Overview
 
 This project leverages a Random Forest Classifier to analyze startup success patterns using funding data, geographic factors, and business metrics. The model is integrated into a user-friendly Flask web application, enabling entrepreneurs and investors to make data-driven decisions.
